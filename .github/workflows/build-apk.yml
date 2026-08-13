@@ -12,25 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: PWABuilder Action
+        uses: pwa-builder/pwabuilder-action@v1
         with:
-          node-version: 18
+          pwa-url: "https://hmchoik915.github.io/car-log/"
+          output-dir: "apk-output"
 
-      - name: Install Bubblewrap
-        run: npm install -g @bubblewrap/cli
-
-      - name: Build APK
-        run: |
-          bubblewrap init --manifest="https://hmchoik915.github.io/car-log/manifest.json" --directory="./apk-build"
-          cd apk-build
-          bubblewrap build --skipSigning
-        continue-on-error: true
-
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
-          path: |
-            **/*.apk
-            ./apk-build/*.apk
+          path: apk-output/*.apk
