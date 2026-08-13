@@ -1,0 +1,8 @@
+{
+  "name": "(사)경기도농아인협회 스마트 차량운행일지",
+  "short_name": "차량운행일지",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
+}
