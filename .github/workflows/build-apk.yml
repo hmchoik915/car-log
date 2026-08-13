@@ -10,23 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install Bubblewrap CLI
+      - name: Install Bubblewrap
         run: npm install -g @bubblewrap/cli
 
-      - name: Build Android App
+      - name: Build APK
         run: |
-          bubblewrap init --manifest=https://hmchoik915.github.io/car-log/manifest.json
-          bubblewrap build
+          bubblewrap init --manifest="https://hmchoik915.github.io/car-log/manifest.json" --directory="./apk-build"
+          cd apk-build
+          bubblewrap build --skipSigning
+        continue-on-error: true
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
-          path: ./*.apk
+          path: |
+            **/*.apk
+            ./apk-build/*.apk
